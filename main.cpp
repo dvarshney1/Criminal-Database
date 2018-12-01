@@ -8,8 +8,7 @@ using namespace Criminal;
 
 int main(){
   Record c;
-  // TODO: Get all the parameters and switch case statement of a criminal's
-  //       record and push it onto github
+  // TODO: Get all the parameters and switch case statement of a criminal
   do{
     int choice;
     cin>>choice
@@ -23,7 +22,7 @@ int main(){
     switch(choice){
       case 1: write_data();
               break;
-      case 2: delete();
+      case 2: delete_record();
               break;
       case 3: modify();
               break;

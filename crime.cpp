@@ -1,16 +1,18 @@
 #include <iostream>
+#include <ostream>
+#include <fstream>
 #include <string>
+#include <stdio.h>
 #include <cmath>
-#include <stdio>
 #include "crime.h"
 using namespace std;
 
 namespace Criminal{
     Record::Record(){
-      long crim_code = 0
+      long crim_code = 0;
       string name = "Unknown";
       string sex = "N/A";
-      sex father_name + "Unknown";
+      string father_name = "Unknown";
       string address = "N/A";
       string offense = "N/A";
       string blood_type = "N/A";
@@ -18,22 +20,22 @@ namespace Criminal{
       int reward = 0;
     }
     void Record::get_data(){
-      cout<<endl<<"Enter Criminal's Unique Code: "
+      cout<<endl<<"Enter Criminal's Unique Code: ";
       cin>>crim_code;
       cout<<endl<<"Enter Criminal's Name: ";
-      gets(name);
+      getline(cin, name);
       cout<<endl<<"Enter Criminal's Sex: ";
-      gets(sex);
+      getline(cin, sex);
       cout<<endl<<"Enter Criminal's Father Name: ";
-      gets(father_name);
+      getline(cin, father_name);
       cout<<endl<<"Enter Criminal's Address: ";
-      gets(address);
+      getline(cin, address);
       cout<<endl<<"Enter Criminal's Offense: ";
-      gets(offense);
+      getline(cin, offense);
       cout<<endl<<"Enter Criminal's Blood Tyoe: ";
-      gets(blood_type);
+      getline(cin, blood_type);
       cout<<endl<<"Enter Criminal's Date of Birth: ";
-      gets(date_of_birth);
+      getline(cin, date_of_birth);
       cout<<endl<<"Enter Reward on Criminal: ";
       cin>>reward;
       cout<<endl;
@@ -48,7 +50,7 @@ namespace Criminal{
       cout<<endl<<"Date of Birth: "<<date_of_birth;
     }
     void Record::write_data(){
-      ofsream fout;
+      ofstream fout;
       fout.open("Record", ios::app);
       get_data();
       fout.write((char*)&c, sizeof(c));
@@ -58,7 +60,7 @@ namespace Criminal{
       ifstream fin;
       fin.open("Record", ios::in):
       fin.seekg(0, ios::beg);
-      fin.read((char*)c, sizeof(c));
+      fin.read((char*)&c, sizeof(c));
       while(fin){
         display();
         fin.read((char*)&c, sizeof(c));
@@ -74,13 +76,13 @@ namespace Criminal{
       fin.seekg(0, ios::beg);
       fin.read((char*)&c, sizeof(c));
       while(fin){
-        if(strcmpi(name, this->name) == 0)
+        if(strcmp(name, this->name) == 0)
           display();
         fin.read((char*)&c, sizeof(c));
       }
       fin.close();
     }
-    void Record::delete(){
+    void Record::delete_record(){
       ifstream fin("Record", ios::app);
       ofstream fout("new", ios::app);
       fin.seekg(0, ios::beg);
@@ -89,7 +91,7 @@ namespace Criminal{
       gets(name);
       fin.read((char*)&c, sizeof(c));
       while(fin){
-        if(strcmpi(name, this->name)==0)
+        if(strcmp(name, this->name)==0)
           fout.write((char*)&c, sizeof(c));
         fin.read((char*)&c, sizeof(c));
       }
@@ -105,11 +107,11 @@ namespace Criminal{
       int p;
       fstream f;
       f.open("Record", ios::in|ios::out);
-      f,seekg(0, ios::beg);
+      f.seekg(0, ios::beg);
       f.read((char*)&c, sizeof(c));
       int size = f.tellg();
       while(!f.eof(){
-        if(!strcmpi(name, this->name)){
+        if(!strcmp(name, this->name)){
           cout<<endl<<"Press 1 to change name";
           cout<<endl<<"Press 2 to change sex";
           cout<<endl<<"Press 3 to change DOB";
@@ -138,7 +140,7 @@ namespace Criminal{
                     break;
             default: cout<<"Wrong choice, please enter again"<<endl;
           }
-          f,seekg(size-sizeof(c), ios::beg);
+          f.seekg(size-sizeof(c), ios::beg);
           f.write((char*)&c, sizeof(c));
         }
         f.read((char*)&c, sizeof(c));
