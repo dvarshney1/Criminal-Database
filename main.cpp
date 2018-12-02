@@ -1,5 +1,5 @@
 #include <iostream>
-#include "crime.h"
+#include "crime.hpp"
 #include <string>
 #include <cmath>
 
@@ -8,10 +8,9 @@ using namespace Criminal;
 
 int main(){
   Record c;
-  // TODO: Get all the parameters and switch case statement of a criminal
+  int choice;
   do{
-    int choice;
-    cin>>choice
+    cin>>choice;
     cout<<"*******************************************************"<<endl;
     cout<<"        Press 1 to Enter Criminal Information"<<endl;
     cout<<"        Press 2 to Delete Criminal Information"<<endl;
@@ -20,18 +19,17 @@ int main(){
     cout<<"        Press 5 to Display Criminal Information"<<endl;
     cout<<"*******************************************************"<<endl;
     switch(choice){
-      case 1: write_data();
+      case 1: c.write_data();
               break;
-      case 2: delete_record();
+      case 2: c.delete_record();
               break;
-      case 3: modify();
+      case 3: c.modify();
               break;
-      case 4: search();
+      case 4: c.search();
               break;
-      case 5: get_data();
+      case 5: c.get_data();
               break;
       case 6: break;
-
       default: cout<<"Choose the correct option !!"<<endl;
     }
   } while(choice != 6);

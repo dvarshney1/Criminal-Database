@@ -4,20 +4,20 @@
 #include <string>
 #include <stdio.h>
 #include <cmath>
-#include "crime.h"
+#include "crime.hpp"
 using namespace std;
 
 namespace Criminal{
     Record::Record(){
-      long crim_code = 0;
-      string name = "Unknown";
-      string sex = "N/A";
-      string father_name = "Unknown";
-      string address = "N/A";
-      string offense = "N/A";
-      string blood_type = "N/A";
-      string date_of_birth = "N/A";
-      int reward = 0;
+      crim_code = 0;
+      name = "Unknown";
+      sex = "N/A";
+      father_name = "Unknown";
+      address = "N/A";
+      offense = "N/A";
+      blood_type = "N/A";
+      date_of_birth = "N/A";
+      reward = 0;
     }
     void Record::get_data(){
       cout<<endl<<"Enter Criminal's Unique Code: ";
@@ -52,33 +52,33 @@ namespace Criminal{
     void Record::write_data(){
       ofstream fout;
       fout.open("Record", ios::app);
-      get_data();
-      fout.write((char*)&c, sizeof(c));
+      this->get_data();
+      fout.write((char*)this, sizeof(*this));
       fout.close();
     }
     void Record::read_data(){
       ifstream fin;
-      fin.open("Record", ios::in):
+      fin.open("Record", ios::in);
       fin.seekg(0, ios::beg);
-      fin.read((char*)&c, sizeof(c));
+      fin.read((char*)this, sizeof(*this));
       while(fin){
-        display();
-        fin.read((char*)&c, sizeof(c));
+        this->display();
+        fin.read((char*)this, sizeof(*this));
       }
       fin.close();
     }
     void Record::search(){
       string name;
       cout<<endl<<"Enter Criminal Name to be searched: ";
-      gets(name);
+      getline(cin, name);
       ifstream fin;
       fin.open("Record");
       fin.seekg(0, ios::beg);
-      fin.read((char*)&c, sizeof(c));
+      fin.read((char*)this, sizeof(*this));
       while(fin){
-        if(strcmp(name, this->name) == 0)
-          display();
-        fin.read((char*)&c, sizeof(c));
+        if(name == this->name)
+          this->display();
+        fin.read((char*)this, sizeof(*this));
       }
       fin.close();
     }
@@ -88,12 +88,12 @@ namespace Criminal{
       fin.seekg(0, ios::beg);
       string name;
       cout<<endl<<"Enter Criminal's Name whose record needs to be deleted: ";
-      gets(name);
-      fin.read((char*)&c, sizeof(c));
+      getline(cin, name);
+      fin.read((char*)this, sizeof(*this));
       while(fin){
-        if(strcmp(name, this->name)==0)
-          fout.write((char*)&c, sizeof(c));
-        fin.read((char*)&c, sizeof(c));
+        if(name == this->name)
+          fout.write((char*)this, sizeof(*this));
+        fin.read((char*)this, sizeof(*this));
       }
       fin.close();
       fout.close();
@@ -103,15 +103,15 @@ namespace Criminal{
     void Record::modify(){
       string name;
       cout<<endl<<"Enter Name of Criminal whose details are to be modified: ";
-      gets(name);
+      getline(cin, name);
       int p;
       fstream f;
       f.open("Record", ios::in|ios::out);
       f.seekg(0, ios::beg);
-      f.read((char*)&c, sizeof(c));
+      f.read((char*)this, sizeof(*this));
       int size = f.tellg();
-      while(!f.eof(){
-        if(!strcmp(name, this->name)){
+      while(!f.eof()){
+        if(name != this->name){
           cout<<endl<<"Press 1 to change name";
           cout<<endl<<"Press 2 to change sex";
           cout<<endl<<"Press 3 to change DOB";
@@ -122,28 +122,28 @@ namespace Criminal{
           cout<<endl<<"Press 8 to change reward on criminal"<<endl;
           cin>>p;
           switch(p){
-            case 1: gets(name);
+            case 1: getline(cin, name);
                     break;
-            case 2: gets(sex);
+            case 2: getline(cin, sex);
                     break;
-            case 3: gets(date_of_birth);
+            case 3: getline(cin, date_of_birth);
                     break;
-            case 4: gets(blood);
+            case 4: getline(cin, blood_type);
                     break;
-            case 5: gets(father_name);
+            case 5: getline(cin, father_name);
                     break;
-            case 6: gets(address);
+            case 6: getline(cin, address);
                     break;
-            case 7: gets(offense);
+            case 7: getline(cin, offense);
                     break;
             case 8: cin>>reward;
                     break;
             default: cout<<"Wrong choice, please enter again"<<endl;
           }
-          f.seekg(size-sizeof(c), ios::beg);
-          f.write((char*)&c, sizeof(c));
+          f.seekg(size-sizeof(*this), ios::beg);
+          f.write((char*)this, sizeof(*this));
         }
-        f.read((char*)&c, sizeof(c));
+        f.read((char*)this, sizeof(*this));
         size = f.tellg();
       }
       f.close();
